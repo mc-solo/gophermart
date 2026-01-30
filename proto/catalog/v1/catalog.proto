@@ -1,0 +1,51 @@
+syntax = "proto3";
+package gophermart.catalog.v1;
+option go_package = "github.com/mc-solo/gophermart/proto/catalog/v1;catalogpb";
+
+
+service CatalogService {
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+    rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+}
+
+message ProductSummary {
+    string id = 1;
+    string name = 2;
+    Money price = 3;
+}
+
+message ProductDetail {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    Money price = 4;
+    string category_id = 5;
+    bool is_active = 6;
+    int64 created_at = 7;
+    int64 updated_at = 8;
+}
+
+message Money {
+    int64 amount = 1;
+    string currency = 2;
+}
+
+// Req/Res messages
+message GetProductRequest {
+    string product_id = 1;
+}
+
+message GetProductResponse {
+    ProductDetail product = 1;
+}
+
+message ListProductsRequest {
+    int32 page_size = 1;
+    string page_token = 2;  
+}
+
+message ListProductsResponse {
+    repeated ProductSummary products = 1;
+    string next_page_token = 2;
+}
+
